@@ -22,7 +22,7 @@ task clean(type: Delete) {
 }
 
 plugins {
-  `maven-publish`
+  id 'maven-publish'
 }
 
 publishing {
