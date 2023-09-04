@@ -26,7 +26,43 @@ task clean(type: Delete) {
     delete rootProject.buildDir
 }
 
+
+def f = new File(project.projectDir.toString() + '/sdk/build.gradle')
+def openCVersionName = f.readLines().find { it.contains('openCVersionName') }.split('=')[1].trim().replaceAll('"', '')
+
 publishing {
+  publications {
+      maven(MavenPublication) {
+          groupId = 'app.afixer'
+          artifactId = 'opencv-android'
+          version = openCVersionName
+
+          pom {
+              name = 'OpenCV SDK for Android'
+              url = 'https://github.com/afixer/opencv-android'
+              licenses {
+                  license {
+                      name = 'Apache-2.0'
+                      url = 'https://github.com/opencv/opencv/LICENSE'
+                  }
+              }
+              developers {
+                  developer {
+                      id = 'openhoangnc'
+                      name = 'Hoang Nguyen Cong'
+                      email = 'hoang@afixer.app'
+                  }
+              }
+
+              scm {
+                  connection = 'scm:git:git://github.com/afixer/opencv-android.git'
+                  developerConnection = 'scm:git:ssh://github.com/afixer/opencv-android.git'
+                  url = 'https://github.com/afixer/opencv-android'
+              }
+          }
+      }
+  }
+
   repositories {
     maven {
       name = "OSSRH"
